@@ -1,5 +1,5 @@
 # Used to decalre the value of the variables used in the main.tf file
-
+/*
 vpc_cidr = "10.0.0.0/16"
 vpc_name = "tf-module-ecs-vpc"
 
@@ -28,3 +28,5 @@ subnet_data = {
   }]
 
 }
+
+*/
