@@ -28,7 +28,7 @@ resource "aws_subnet" "tf-ecs-public-subnet-2" {
 ####################################################PUBLIC######################################################
 #2 public subnet
 resource "aws_subnet" "tf-module-ecs-public-subnet" {
-  count = length(var.subnet_data["public"])
+  count                   = length(var.subnet_data["public"])
   vpc_id                  = aws_vpc.tf-ecs-vpc.id
   cidr_block              = var.subnet_data["public"][count.index].cidr
   map_public_ip_on_launch = true
@@ -42,8 +42,8 @@ resource "aws_internet_gateway" "tf-ecs-module-igw" {
   vpc_id = aws_vpc.tf-ecs-vpc.id
 
   tags = merge(local.common_tags, {
-  Name = "IGW for public subnets"
-})
+    Name = "IGW for public subnets"
+  })
 
 }
 
@@ -62,10 +62,10 @@ resource "aws_route_table" "public-rt" {
 resource "aws_route_table_association" "public-rt-association" {
   count = length(var.subnet_data["public"])
 
-  subnet_id = aws_subnet.tf-module-ecs-public-subnet[count.index].id
+  subnet_id      = aws_subnet.tf-module-ecs-public-subnet[count.index].id
   route_table_id = aws_route_table.public-rt.id
 
-  depends_on = [ aws_subnet.tf-module-ecs-public-subnet , aws_route_table.public-rt]
+  depends_on = [aws_subnet.tf-module-ecs-public-subnet, aws_route_table.public-rt]
 }
 
 ####################################################PRIVATE######################################################
@@ -85,7 +85,7 @@ resource "aws_subnet" "tf-ecs-private-subnet-1" {
 */
 #Creating private subnets
 resource "aws_subnet" "tf-module-ecs-private-subnet" {
-  count = length(var.subnet_data["private"])
+  count                   = length(var.subnet_data["private"])
   vpc_id                  = aws_vpc.tf-ecs-vpc.id
   cidr_block              = var.subnet_data["private"][count.index].cidr
   map_public_ip_on_launch = false
@@ -106,18 +106,18 @@ resource "aws_route_table" "private-rt" {
 resource "aws_route_table_association" "private-rt-association" {
   count = length(var.subnet_data["private"])
 
-  subnet_id = aws_subnet.tf-module-ecs-private-subnet[count.index].id
+  subnet_id      = aws_subnet.tf-module-ecs-private-subnet[count.index].id
   route_table_id = aws_route_table.private-rt.id
 
-  depends_on = [ aws_subnet.tf-module-ecs-private-subnet , aws_route_table.private-rt]
+  depends_on = [aws_subnet.tf-module-ecs-private-subnet, aws_route_table.private-rt]
 }
 
 # route for the route table private-rt
 resource "aws_route" "private-rt-route" {
-  count = var.need_nat_gateway ? (var.need_single_nat_gateway ? 1 : (null != var.subnet_data["private"] ? length(var.subnet_data["private"]) : 0)) : 0
-  route_table_id            = aws_route_table.private-rt.id
-  destination_cidr_block    = "0.0.0.0/0"
-  nat_gateway_id = aws_nat_gateway.tf-module-nat-gw[count.index].id
+  count                  = var.need_nat_gateway ? (var.need_single_nat_gateway ? 1 : (null != var.subnet_data["private"] ? length(var.subnet_data["private"]) : 0)) : 0
+  route_table_id         = aws_route_table.private-rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.tf-module-nat-gw[count.index].id
 }
 
 #Creating EIP for NAT gateway
@@ -132,7 +132,7 @@ resource "aws_eip" "tf-ecs-module-eip" {
 
 #Creating NAT gateway
 resource "aws_nat_gateway" "tf-module-nat-gw" {
-  count = var.need_nat_gateway ? (var.need_single_nat_gateway ? 1 : (null != var.subnet_data["private"] ? length(var.subnet_data["private"]) : 0)) : 0
+  count         = var.need_nat_gateway ? (var.need_single_nat_gateway ? 1 : (null != var.subnet_data["private"] ? length(var.subnet_data["private"]) : 0)) : 0
   allocation_id = aws_eip.tf-ecs-module-eip[count.index].id
   subnet_id     = aws_subnet.tf-module-ecs-private-subnet[count.index].id
 }

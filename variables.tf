@@ -1,6 +1,6 @@
 # AWS region
 variable "region" {
-  default = "eu-west-3"
+  default     = "eu-west-3"
   description = "The AWS region to create resources in"
 }
 
@@ -12,9 +12,9 @@ variable "vpc_cidr" {
 
 # vpc name
 variable "vpc_name" {
-    description = "Name of the VPC"
-    type        = string 
-    default = "tf-module-vpc-ecs"
+  description = "Name of the VPC"
+  type        = string
+  default     = "tf-module-vpc-ecs"
 }
 
 variable "primary_az" {
@@ -36,27 +36,27 @@ variable "secondary_az" {
 
 variable "subnet_data" {
   type = map(list(object({
-    public = bool
-    cidr = string
+    public            = bool
+    cidr              = string
     availability_zone = string
   })))
 }
 
 
 variable "If_public_subnet" {
-  type = bool
+  type        = bool
   description = "Whether you want a public subnet or not"
-  default = true
+  default     = true
 }
 
 variable "need_nat_gateway" {
-  type = bool
+  type        = bool
   description = "Whether you want a nat gateway or not"
-  default = true
+  default     = true
 }
 
 variable "need_single_nat_gateway" {
-  type = bool
+  type        = bool
   description = "Whether you want a single nat gateway or multiple"
-  default = true
+  default     = true
 }

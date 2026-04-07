@@ -8,6 +8,6 @@ locals {
   prefix = "${var.project}-tf-module"
   common_tags = {
     ManagedBy = "Terraform module"
-    Project = "AWS Lens"
+    Project   = "AWS Lens"
   }
 }

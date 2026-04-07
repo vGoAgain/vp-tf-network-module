@@ -6,25 +6,25 @@ vpc_name = "tf-module-ecs-vpc"
 subnet_data = {
   "private" = [
     {
-      cidr= "10.0.1.0/24"
-      public = false
+      cidr              = "10.0.1.0/24"
+      public            = false
       availability_zone = "eu-west-3a"
     },
     {
-      cidr= "10.0.2.0/24"
-      public = false
+      cidr              = "10.0.2.0/24"
+      public            = false
       availability_zone = "eu-west-3b"
-    }],
+  }],
   "public" = [
     {
-      cidr= "10.0.3.0/24"
-      public= true
+      cidr              = "10.0.3.0/24"
+      public            = true
       availability_zone = "eu-west-3a"
     },
     {
-      cidr = "10.0.4.0/24"
-      public = true
+      cidr              = "10.0.4.0/24"
+      public            = true
       availability_zone = "eu-west-3b"
-    }]
+  }]
 
 }
