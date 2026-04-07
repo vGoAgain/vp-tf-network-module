@@ -42,13 +42,6 @@ variable "subnet_data" {
   })))
 }
 
-
-variable "If_public_subnet" {
-  type        = bool
-  description = "Whether you want a public subnet or not"
-  default     = true
-}
-
 variable "need_nat_gateway" {
   type        = bool
   description = "Whether you want a nat gateway or not"
