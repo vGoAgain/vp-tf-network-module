@@ -52,7 +52,7 @@ variable "If_public_subnet" {
 variable "need_nat_gateway" {
   type        = bool
   description = "Whether you want a nat gateway or not"
-  default     = true
+  default     = false
 }
 
 variable "need_single_nat_gateway" {
