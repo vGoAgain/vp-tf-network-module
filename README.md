@@ -1,13 +1,49 @@
 # AWS Network Terraform Module
 
-A Terraform module that provisions a complete AWS network stack: a VPC with public and private subnets, an internet gateway, route tables, and optionally one or more NAT gateways.
+A reusable Terraform module that provisions a complete AWS network infrastructure, including a VPC, public and private subnets, internet gateway, NAT gateway, and route tables.
 
-## Resources created
+## Architecture
 
-- VPC
-- Public subnets + Internet Gateway + public route table
-- Private subnets + private route table
-- (Optional) Elastic IPs + NAT Gateway(s) for private subnet egress
+```
+                          Internet
+                             │
+                       ┌─────▼─────┐
+                       │    IGW    │
+                       └─────┬─────┘
+                             │
+                    ┌────────▼────────┐
+                    │      VPC        │
+                    │                 │
+                    │  ┌───────────┐  │
+                    │  │  Public   │  │
+                    │  │  Subnets  │  │
+                    │  └─────┬─────┘  │
+                    │        │        │
+                    │  ┌─────▼─────┐  │
+                    │  │    NAT    │  │
+                    │  │  Gateway  │  │
+                    │  └─────┬─────┘  │
+                    │        │        │
+                    │  ┌─────▼─────┐  │
+                    │  │  Private  │  │
+                    │  │  Subnets  │  │
+                    │  └───────────┘  │
+                    └─────────────────┘
+```
+
+## Resources Created
+
+| Resource | Description |
+|---|---|
+| `aws_vpc` | The VPC container for all resources |
+| `aws_subnet` (public) | Internet-facing subnets |
+| `aws_subnet` (private) | Internal subnets (no direct internet access) |
+| `aws_internet_gateway` | Enables internet access for public subnets |
+| `aws_eip` | Elastic IP(s) attached to the NAT gateway |
+| `aws_nat_gateway` | Enables outbound internet for private subnets |
+| `aws_route_table` (public) | Routes public traffic to the IGW |
+| `aws_route_table` (private) | Routes private traffic to the NAT gateway |
+| `aws_route_table_association` | Links subnets to their respective route tables |
 
 ## Usage
 
@@ -82,5 +118,5 @@ subnet_data = {
 
 | Tool | Version |
 |------|---------|
-| Terraform | >= 1.12.7 |
+| Terraform | >= 1.11 |
 | AWS provider | ~> 6.0 |

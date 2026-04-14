@@ -45,7 +45,7 @@ variable "subnet_data" {
 variable "need_nat_gateway" {
   type        = bool
   description = "Whether you want a nat gateway or not"
-  default     = false
+  default     = true
 }
 
 variable "need_single_nat_gateway" {
